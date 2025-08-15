@@ -1,58 +1,13 @@
-2025-08-15 17:07:43,818 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-8 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2025-08-15 17:07:44,052 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-8 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+2025-08-15 17:47:16,407 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-5 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
+2025-08-15 17:47:16,610 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-5 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
 
     play.filters.csrf.CSRFFilter
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
 
-2025-08-15 17:07:44,057 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-8 - Application started (Dev) (no global state)
-2025-08-15 17:10:09,613 [INFO] from play.api.http.HttpErrorHandlerExceptions in play-dev-mode-pekko.actor.default-dispatcher-9 - Registering exception handler: guice-provision-exception-handler
-2025-08-15 17:10:10,056 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-9 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2025-08-15 17:10:10,197 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-9 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
-
-    play.filters.csrf.CSRFFilter
-    play.filters.headers.SecurityHeadersFilter
-    play.filters.hosts.AllowedHostsFilter
-
-2025-08-15 17:10:10,199 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-9 - Application started (Dev) (no global state)
-2025-08-15 17:30:48,880 [INFO] from play.api.http.HttpErrorHandlerExceptions in play-dev-mode-pekko.actor.default-dispatcher-16 - Registering exception handler: guice-provision-exception-handler
-2025-08-15 17:30:49,108 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-16 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2025-08-15 17:30:49,203 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-16 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
-
-    play.filters.csrf.CSRFFilter
-    play.filters.headers.SecurityHeadersFilter
-    play.filters.hosts.AllowedHostsFilter
-
-2025-08-15 17:30:49,204 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-16 - Application started (Dev) (no global state)
-2025-08-15 17:32:06,632 [INFO] from play.api.http.HttpErrorHandlerExceptions in play-dev-mode-pekko.actor.default-dispatcher-22 - Registering exception handler: guice-provision-exception-handler
-2025-08-15 17:32:06,777 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-22 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2025-08-15 17:32:06,817 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-22 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
-
-    play.filters.csrf.CSRFFilter
-    play.filters.headers.SecurityHeadersFilter
-    play.filters.hosts.AllowedHostsFilter
-
-2025-08-15 17:32:06,819 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-22 - Application started (Dev) (no global state)
-2025-08-15 17:37:41,139 [INFO] from play.api.http.HttpErrorHandlerExceptions in play-dev-mode-pekko.actor.default-dispatcher-10 - Registering exception handler: guice-provision-exception-handler
-2025-08-15 17:37:41,347 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-10 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2025-08-15 17:37:41,391 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-10 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
-
-    play.filters.csrf.CSRFFilter
-    play.filters.headers.SecurityHeadersFilter
-    play.filters.hosts.AllowedHostsFilter
-
-2025-08-15 17:37:41,392 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-10 - Application started (Dev) (no global state)
-2025-08-15 17:42:52,395 [INFO] from play.api.http.HttpErrorHandlerExceptions in play-dev-mode-pekko.actor.default-dispatcher-26 - Registering exception handler: guice-provision-exception-handler
-2025-08-15 17:42:52,554 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-26 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2025-08-15 17:42:52,635 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-26 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
-
-    play.filters.csrf.CSRFFilter
-    play.filters.headers.SecurityHeadersFilter
-    play.filters.hosts.AllowedHostsFilter
-
-2025-08-15 17:42:52,636 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-26 - Application started (Dev) (no global state)
-2025-08-15 17:44:01,568 [INFO] from play.api.internal.libs.concurrent.CoordinatedShutdownSupport in pool-7-thread-4 - Starting synchronous coordinated shutdown with ServerStoppedReason reason and 40000 milliseconds timeout
-2025-08-15 17:44:01,572 [INFO] from play.core.server.PekkoHttpServer in pool-7-thread-4 - Stopping Pekko HTTP server...
-2025-08-15 17:44:01,576 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-30 - Unbinding /0:0:0:0:0:0:0:0:9000
-2025-08-15 17:44:01,590 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-30 - Terminating server binding for /0:0:0:0:0:0:0:0:9000
-2025-08-15 17:44:01,645 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-30 - Running provided shutdown stop hooks
+2025-08-15 17:47:16,615 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-5 - Application started (Dev) (no global state)
+2025-08-15 17:48:24,259 [INFO] from play.api.internal.libs.concurrent.CoordinatedShutdownSupport in pool-7-thread-7 - Starting synchronous coordinated shutdown with ServerStoppedReason reason and 40000 milliseconds timeout
+2025-08-15 17:48:24,265 [INFO] from play.core.server.PekkoHttpServer in pool-7-thread-7 - Stopping Pekko HTTP server...
+2025-08-15 17:48:24,271 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-2 - Unbinding /0:0:0:0:0:0:0:0:9000
+2025-08-15 17:48:24,282 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-2 - Terminating server binding for /0:0:0:0:0:0:0:0:9000
+2025-08-15 17:48:24,346 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-2 - Running provided shutdown stop hooks

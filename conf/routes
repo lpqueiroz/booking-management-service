@@ -1,2 +1,2 @@
 
-POST       /graphql                controllers.BookingController.graphql
+POST       /api/v1/graphql                controllers.BookingController.graphql

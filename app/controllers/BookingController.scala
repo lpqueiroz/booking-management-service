@@ -33,7 +33,6 @@ class BookingController @Inject()(val controllerComponents: ControllerComponents
   private def executeQuery(query: String, variables: Option[JsObject], operation: Option[String]) =
     QueryParser.parse(query) match {
 
-      // query parsed successfully, time to execute it!
       case Success(queryAst) =>
         Executor.execute(SchemaDefinition.BookingSchema, queryAst, bookingService,
           operationName = operation,
@@ -44,7 +43,6 @@ class BookingController @Inject()(val controllerComponents: ControllerComponents
             case error: ErrorWithResolver => InternalServerError(error.resolveError)
           }
 
-      // can't parse GraphQL query, return error
       case Failure(error: SyntaxError) =>
         Future.successful(BadRequest(Json.obj(
           "syntaxError" -> error.getMessage,
