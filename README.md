@@ -16,7 +16,7 @@ From the root of the project, run:
 docker-compose up --build
 ```
 
-Then run the application, run the command below from the root of the project:
+Then to run the application, run the command below from the root of the project:
 
 ```bash
 sbt run
