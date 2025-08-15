@@ -4,13 +4,8 @@ import cats.effect.IO
 import doobie._
 import doobie.implicits._
 import doobie.postgres.implicits._
-
-import javax.inject._
 import models.Booking
-
-import java.sql.{Date, Timestamp}
-import java.text.SimpleDateFormat
-import java.time.{Instant, LocalDate}
+import java.time.LocalDate
 import java.util.UUID
 import javax.inject.Inject
 
@@ -24,7 +19,6 @@ class BookingRepositoryImpl @Inject()(xa: Transactor[IO]) extends BookingReposit
                      source: String
                    ): IO[Either[Throwable, Booking]] = {
 
-    // SQL to insert booking (id and created_at handled by DB defaults)
     val insertSql =
       sql"""
         INSERT INTO bookings (home_id, from_date, to_date, guest_email, source)
@@ -33,14 +27,13 @@ class BookingRepositoryImpl @Inject()(xa: Transactor[IO]) extends BookingReposit
       """
 
     insertSql
-      .query[Booking] // Maps directly to Booking case class
+      .query[Booking]
       .unique
       .transact(xa)
       .attempt
   }
 
   def getBookingsByHomeId(id: UUID): IO[List[Booking]] = {
-    // fetch from DB...
     sql"""
       SELECT id, home_id, from_date, to_date, guest_email, source, created_at
       FROM bookings
@@ -49,9 +42,6 @@ class BookingRepositoryImpl @Inject()(xa: Transactor[IO]) extends BookingReposit
   }
 
   def findConflictingBookings(homeId: UUID, fromDate: LocalDate, toDate: LocalDate): IO[List[Booking]] = {
-
-    println(">>> find conflicting bookings")
-
     sql"""
       SELECT
         id,

@@ -3,7 +3,6 @@ package repositories
 import cats.effect.IO
 import com.google.inject.ImplementedBy
 import models.Booking
-
 import java.time.LocalDate
 import java.util.UUID
 

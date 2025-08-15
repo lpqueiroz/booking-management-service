@@ -1,11 +1,8 @@
 package graphql
 
-import cats.effect.unsafe.implicits.global
 import exceptions.UserError
 import sangria.schema._
-import services.{BookingService, BookingServiceImpl}
-import sangria.execution.UserFacingError
-
+import services.BookingService
 import java.util.UUID
 
 

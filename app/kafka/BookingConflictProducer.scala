@@ -3,7 +3,6 @@ package kafka
 import cats.effect.{IO, Resource}
 import cats.effect.unsafe.IORuntime
 import fs2.kafka._
-
 import javax.inject._
 import models.BookingConflictEvent
 import play.api.Logger
@@ -19,14 +18,11 @@ class BookingConflictProducer @Inject()(private val producer: KafkaProducer[IO, 
       valueSerializer = KafkaSerdes.jsonSerializer[BookingConflictEvent]
     ).withBootstrapServers("localhost:9092")
 
-  private val producerResource = KafkaProducer.resource(producerSettings)
-
   def send(event: BookingConflictEvent): IO[Unit] = {
     producer
       .produceOne(ProducerRecord("booking.conflicts", event.homeId.toString, event))
       .flatten >>
       IO {
-        println(s">>> EVENT SENT: $event")           // terminal log
         logger.info(s"Produced event for homeId=${event.homeId}")
       }
   }

@@ -1,28 +1,18 @@
 package services
 
-import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import fs2.kafka.{KafkaProducer, ProducerRecord, ProducerRecords, ProducerResult}
 import kafka.BookingConflictProducer
 import models.{AlternativeDate, Booking, BookingConflictEvent, BookingResponse}
-import play.api.libs.json.Json
-import play.libs.Json
 import repositories.BookingRepository
-
-import java.sql.Timestamp
 import java.time.format.{DateTimeFormatter, DateTimeFormatterBuilder}
 import java.time.temporal.{ChronoField, ChronoUnit}
-import java.time.{Duration, Instant, LocalDate, LocalDateTime, LocalTime}
+import java.time.{LocalDate, LocalDateTime}
 import java.util.UUID
 import javax.inject.Inject
 import scala.concurrent.Future
-//import scala.concurrent.ExecutionContext.Implicits.global
 import cats.effect.unsafe.IORuntime
-import io.circe.generic.auto._  // derives encoders/decoders automatically
-import io.circe.syntax._        // gives you .asJson
-import kafka.BookingConflictProducer
 
-class BookingServiceImpl @Inject()(bookingRepository: BookingRepository, producer: BookingConflictProducer) extends BookingService {
+class BookingServiceImpl @Inject()(bookingRepository: BookingRepository) extends BookingService {
 
   implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
   val bootstrap = "localhost:9092"

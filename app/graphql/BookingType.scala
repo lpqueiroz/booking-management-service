@@ -3,13 +3,11 @@ package graphql
 import sangria.schema._
 import sangria.macros.derive._
 import models.{AlternativeDate, Booking, BookingResponse}
-import repositories.BookingRepositoryImpl
 import graphql.Scalars._
 
 object BookingType {
-  // Make sure to use the SAME context type: BookingRepository
   implicit val BookingType: OutputType[Booking] =
-    deriveObjectType[BookingRepositoryImpl, Booking](
+    deriveObjectType[Unit, Booking](
       ObjectTypeDescription("A booking for a home"),
       DocumentField("id", "Booking ID"),
       DocumentField("homeId", "Home ID for the booking"),
@@ -30,7 +28,7 @@ object BookingType {
   )
 
   implicit val BookingResponseType: OutputType[BookingResponse] =
-    deriveObjectType[BookingRepositoryImpl, BookingResponse](
+    deriveObjectType[Unit, BookingResponse](
       ObjectTypeDescription("A booking for a home"),
       DocumentField("success", "Success or Failure"),
       DocumentField("message", "Message"),

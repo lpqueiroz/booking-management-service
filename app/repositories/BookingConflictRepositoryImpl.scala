@@ -23,5 +23,4 @@ class BookingConflictRepositoryImpl @Inject()(xa: Transactor[IO]) extends Bookin
       .unique
       .transact(xa)
   }
-
 }

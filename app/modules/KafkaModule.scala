@@ -7,12 +7,12 @@ import fs2.kafka.{KafkaProducer, ProducerSettings}
 import kafka.{BookingConflictConsumer, BookingConflictProducer, KafkaSerdes}
 import models.BookingConflictEvent
 
-class Module extends AbstractModule {
+class KafkaModule extends AbstractModule {
 
   override def configure(): Unit = {
-    bind(classOf[BookingConflictConsumer]).asEagerSingleton()
-
     implicit val runtime: IORuntime = IORuntime.global
+
+    bind(classOf[BookingConflictConsumer]).asEagerSingleton()
 
     val bootstrap = "localhost:9092"
     val producerSettings = ProducerSettings[IO, String, BookingConflictEvent](

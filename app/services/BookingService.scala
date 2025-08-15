@@ -2,7 +2,6 @@ package services
 
 import com.google.inject.ImplementedBy
 import models.{Booking, BookingResponse}
-
 import java.util.UUID
 import scala.concurrent.Future
 
@@ -18,5 +17,4 @@ trait BookingService {
                    ): Future[BookingResponse]
 
   def getBookingsByHomeId(homeId: UUID): Future[List[Booking]]
-
 }

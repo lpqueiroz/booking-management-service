@@ -1,6 +1,6 @@
 package modules
 
-import com.google.inject.{AbstractModule, Provides, Singleton}
+import com.google.inject.{AbstractModule, Singleton}
 import javax.inject._
 import org.flywaydb.core.Flyway
 import play.api.inject.ApplicationLifecycle
@@ -23,5 +23,3 @@ class FlywayStarter @Inject()(lifecycle: ApplicationLifecycle) {
 
   lifecycle.addStopHook(() => Future.successful(()))
 }
-
-

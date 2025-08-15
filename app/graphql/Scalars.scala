@@ -2,10 +2,9 @@ package graphql
 
 import sangria.schema._
 import java.util.UUID
+import sangria.validation.Violation
 
 object Scalars {
-
-  import sangria.validation.Violation
 
   case object InvalidUUIDFormatViolation extends Violation {
     override def errorMessage: String = "Invalid UUID format"

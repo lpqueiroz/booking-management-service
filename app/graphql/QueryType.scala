@@ -1,9 +1,7 @@
 package graphql
 
-import cats.effect.unsafe.implicits.global
 import sangria.schema._
-import services.{BookingService, BookingServiceImpl}
-
+import services.BookingService
 import java.util.UUID
 
 object QueryType {

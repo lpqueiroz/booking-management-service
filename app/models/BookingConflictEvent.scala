@@ -1,9 +1,6 @@
 package models
 
-import cats.effect.IO
-import fs2.kafka.{Deserializer, Serializer}
-import play.api.libs.json.{Json, OFormat, Reads}
-
+import play.api.libs.json.{Json, OFormat}
 import java.time.LocalDate
 import java.util.UUID
 
