@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="docs" target="11" />
+      <module name="gatling" target="11" />
+      <module name="play-scala-rest-api-example" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="play-scala-rest-api-example" options="-encoding utf8 -g" />
+    </option>
+  </component>
+</project>

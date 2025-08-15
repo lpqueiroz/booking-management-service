@@ -1,0 +1,13 @@
+2025-08-15 15:10:58,799 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-8 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
+2025-08-15 15:10:59,064 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-8 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+
+    play.filters.csrf.CSRFFilter
+    play.filters.headers.SecurityHeadersFilter
+    play.filters.hosts.AllowedHostsFilter
+
+2025-08-15 15:10:59,070 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-8 - Application started (Dev) (no global state)
+2025-08-15 15:11:04,119 [INFO] from play.api.internal.libs.concurrent.CoordinatedShutdownSupport in pool-7-thread-1 - Starting synchronous coordinated shutdown with ServerStoppedReason reason and 40000 milliseconds timeout
+2025-08-15 15:11:04,121 [INFO] from play.core.server.PekkoHttpServer in pool-7-thread-1 - Stopping Pekko HTTP server...
+2025-08-15 15:11:04,129 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-3 - Unbinding /0:0:0:0:0:0:0:0:9000
+2025-08-15 15:11:04,139 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-5 - Terminating server binding for /0:0:0:0:0:0:0:0:9000
+2025-08-15 15:11:04,179 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-5 - Running provided shutdown stop hooks

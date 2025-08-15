@@ -1,0 +1,4 @@
+[warn] /Users/workspace/Documents/play-samples/play-scala-rest-api-example/project/Common.scala:26:19: method in in trait ScopingSetting is deprecated (since 1.5.0): `in` is deprecated; migrate to slash syntax - https://www.scala-sbt.org/1.x/docs/Migrating-from-sbt-013x.html#slash
+[warn]     scalacOptions in Test ++= (CrossVersion.partialVersion(scalaVersion.value) match {
+[warn]                   ^
+[warn] one warning found
