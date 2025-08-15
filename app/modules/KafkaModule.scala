@@ -1,45 +1,29 @@
-//package modules
-//
-//
-//import cats.effect.{IO, Resource}
-//import cats.effect.unsafe.IORuntime
-//import fs2.kafka._
-//import kafka.{BookingConflictConsumer, BookingConflictProducer}
-//import models.BookingConflictEvent
-//import play.api.{Configuration, Environment}
-//
-//import javax.inject._
-//import scala.concurrent.ExecutionContext
-//import models.BookingConflictEvent._
-//
-//class KafkaModule @Inject() (
-//                              env: Environment,
-//                              config: Configuration,
-//                              bookingConsumer: BookingConflictConsumer,
-//                              producer: BookingConflictProducer
-//                            )(implicit ec: ExecutionContext) {
-//
-//  // Producer settings
-//  val producerSettings: ProducerSettings[IO, String, BookingConflictEvent] =
-//    ProducerSettings(
-//      keySerializer = Serializer[IO, String],
-//      valueSerializer = bookingConflictEventSerializer
-//    ).withBootstrapServers("localhost:9092")
-//
-//  // Consumer settings
-//  val consumerSettings: ConsumerSettings[IO, String, BookingConflictEvent] =
-//    ConsumerSettings(
-//      keyDeserializer = Deserializer[IO, String],
-//      valueDeserializer = bookingConflictEventDeserializer
-//    )
-//      .withBootstrapServers("localhost:9092")
-//      .withGroupId("booking-consumer-group")
-//      .withAutoOffsetReset(AutoOffsetReset.Earliest)
-//
-//  val producerResource: Resource[IO, KafkaProducer[IO, String, BookingConflictEvent]] =
-//    KafkaProducer.resource(producerSettings)
-//
-//  // Start consumer stream at startup
-//  IO.println("Starting Kafka consumer...").unsafeRunSync()
-//  bookingConsumer.start(consumerSettings).unsafeRunAndForget()
-//}
+package modules
+
+import cats.effect.IO
+import cats.effect.unsafe.IORuntime
+import com.google.inject.AbstractModule
+import fs2.kafka.{KafkaProducer, ProducerSettings}
+import kafka.{BookingConflictConsumer, BookingConflictProducer, KafkaSerdes}
+import models.BookingConflictEvent
+
+class Module extends AbstractModule {
+
+  override def configure(): Unit = {
+    bind(classOf[BookingConflictConsumer]).asEagerSingleton()
+
+    implicit val runtime: IORuntime = IORuntime.global
+
+    val bootstrap = "localhost:9092"
+    val producerSettings = ProducerSettings[IO, String, BookingConflictEvent](
+      keySerializer   = fs2.kafka.Serializer[IO, String],
+      valueSerializer = KafkaSerdes.jsonSerializer[BookingConflictEvent]
+    ).withBootstrapServers(bootstrap)
+
+    val producer: KafkaProducer[IO, String, BookingConflictEvent] =
+      KafkaProducer.resource(producerSettings).allocated.unsafeRunSync()._1
+
+    bind(classOf[BookingConflictProducer])
+      .toInstance(new BookingConflictProducer(producer))
+  }
+}
