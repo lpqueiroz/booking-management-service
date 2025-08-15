@@ -2,6 +2,8 @@ package services
 
 import com.google.inject.ImplementedBy
 import models.{Booking, BookingResponse}
+
+import java.time.LocalDate
 import java.util.UUID
 import scala.concurrent.Future
 
@@ -10,8 +12,8 @@ trait BookingService {
 
   def createBooking(
                      homeId: UUID,
-                     fromDate: String,
-                     toDate: String,
+                     fromDate: LocalDate,
+                     toDate: LocalDate,
                      guestEmail: String,
                      source: String
                    ): Future[BookingResponse]

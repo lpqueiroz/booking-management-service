@@ -3,6 +3,7 @@ package modules
 import cats.effect.IO
 import cats.effect.unsafe.IORuntime
 import com.google.inject.AbstractModule
+import com.typesafe.config.ConfigFactory
 import fs2.kafka.{KafkaProducer, ProducerSettings}
 import kafka.{BookingConflictConsumer, BookingConflictProducer, KafkaSerdes}
 import models.BookingConflictEvent
@@ -14,7 +15,9 @@ class KafkaModule extends AbstractModule {
 
     bind(classOf[BookingConflictConsumer]).asEagerSingleton()
 
-    val bootstrap = "localhost:9092"
+    val config = ConfigFactory.load()
+    val bootstrap = config.getString("kafka.producer.bootstrap.servers")
+
     val producerSettings = ProducerSettings[IO, String, BookingConflictEvent](
       keySerializer   = fs2.kafka.Serializer[IO, String],
       valueSerializer = KafkaSerdes.jsonSerializer[BookingConflictEvent]

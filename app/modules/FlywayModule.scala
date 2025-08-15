@@ -1,6 +1,7 @@
 package modules
 
 import com.google.inject.{AbstractModule, Singleton}
+import com.typesafe.config.ConfigFactory
 import javax.inject._
 import org.flywaydb.core.Flyway
 import play.api.inject.ApplicationLifecycle
@@ -15,8 +16,20 @@ class FlywayModule extends AbstractModule {
 // This class runs Flyway on startup
 @Singleton
 class FlywayStarter @Inject()(lifecycle: ApplicationLifecycle) {
+
+  val config = ConfigFactory.load()
+  val dbConfig = config.getConfig("db.default")
+
+  val url      = dbConfig.getString("url")
+  val user     = dbConfig.getString("username")
+  val password = dbConfig.getString("password")
+
   private val flyway = Flyway.configure()
-    .dataSource("jdbc:postgresql://localhost:5432/postgres", "myuser", "mypassword")
+    .dataSource(
+      url,
+      user,
+      password
+    )
     .load()
 
   flyway.migrate()

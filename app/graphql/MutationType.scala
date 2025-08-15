@@ -3,7 +3,10 @@ package graphql
 import exceptions.UserError
 import sangria.schema._
 import services.BookingService
+
+import java.time.LocalDate
 import java.util.UUID
+import scala.concurrent.Future
 
 
 object MutationType {
@@ -29,11 +32,18 @@ object MutationType {
           val guestEmail = ctx.arg[String]("guestEmail")
           val source     = ctx.arg[String]("source")
 
-          ctx.ctx.createBooking(homeId, fromDate, toDate, guestEmail, source)
-            .recover {
-              case ex: Exception =>
-                throw UserError("Booking could not be created: " + ex.getMessage)
-            }
+          val fromDateConverted: LocalDate = LocalDate.parse(fromDate)
+          val toDateConverted: LocalDate = LocalDate.parse(toDate)
+
+          if (toDateConverted.isBefore(fromDateConverted)) {
+            throw UserError("fromDate must be before toDate")
+          } else {
+            ctx.ctx.createBooking(homeId, fromDateConverted, toDateConverted, guestEmail, source)
+              .recover {
+                case ex: Exception =>
+                  throw UserError("Booking could not be created: " + ex.getMessage)
+              }
+          }
         }
       )
     )

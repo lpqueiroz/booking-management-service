@@ -5,7 +5,8 @@ import doobie._
 import doobie.implicits._
 import doobie.postgres.implicits._
 import models.Booking
-import java.time.LocalDate
+
+import java.time.{Instant, LocalDate}
 import java.util.UUID
 import javax.inject.Inject
 
@@ -60,4 +61,7 @@ class BookingRepositoryImpl @Inject()(xa: Transactor[IO]) extends BookingReposit
       .to[List]
       .transact(xa)
   }
+
+  def getCurrentDbTime: IO[Instant] =
+    sql"SELECT now()".query[Instant].unique.transact(xa)
 }
