@@ -10,3 +10,6 @@ addSbtPlugin("io.gatling" % "gatling-sbt" % "4.16.1")
 
 // Scala formatting: "sbt scalafmt"
 addSbtPlugin("com.lucidchart" % "sbt-scalafmt" % "1.16")
+
+//addSbtPlugin("com.dimafeng" % "sbt-testcontainers" % "0.39.8")
+

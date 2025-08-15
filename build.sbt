@@ -3,6 +3,7 @@ import play.sbt.PlaySettings
 
 lazy val scala213 = "2.13.16"
 lazy val scala3 = "3.3.4"
+lazy val testcontainersVersion = "0.41.4"
 
 lazy val root = (project in file("."))
   .enablePlugins(PlayService, PlayLayoutPlugin, Common)
@@ -18,6 +19,10 @@ lazy val root = (project in file("."))
       "com.indoorvivants" %% "scala-uri" % "4.2.0",
       "net.codingwell" %% "scala-guice" % "6.0.0",
       "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.2" % Test,
+      "org.scalatest"        %% "scalatest"         % "3.2.19" % Test,
+//      "com.dimafeng"         %% "testcontainers-scala-scalatest" % testcontainersVersion % Test,
+//      "com.dimafeng"         %% "testcontainers-scala-postgresql" % testcontainersVersion % Test,
+//      "org.testcontainers" % "testcontainers" % "1.19.0" % Test,
       "com.typesafe.akka" %% "akka-stream-kafka" % "4.0.1",
       "org.sangria-graphql" %% "sangria" % "4.0.0",
       "com.github.fd4s" %% "fs2-kafka" % "3.9.0",

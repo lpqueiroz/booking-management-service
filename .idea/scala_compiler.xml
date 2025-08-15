@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="sbt 1" modules="avantstaychallenge_1017" />
+    <profile name="sbt 1" modules="avantstaychallenge_1017,bookingmanagementservice_4347" />
     <profile name="sbt 2" modules="play-scala-rest-api-example">
       <option name="deprecationWarnings" value="true" />
       <option name="uncheckedWarnings" value="true" />
