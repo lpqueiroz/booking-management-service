@@ -20,9 +20,10 @@ lazy val root = (project in file("."))
       "net.codingwell" %% "scala-guice" % "6.0.0",
       "org.scalatestplus.play" %% "scalatestplus-play" % "7.0.2" % Test,
       "org.scalatest"        %% "scalatest"         % "3.2.19" % Test,
-//      "com.dimafeng"         %% "testcontainers-scala-scalatest" % testcontainersVersion % Test,
-//      "com.dimafeng"         %% "testcontainers-scala-postgresql" % testcontainersVersion % Test,
-//      "org.testcontainers" % "testcontainers" % "1.19.0" % Test,
+      "com.dimafeng"         %% "testcontainers-scala-scalatest" % testcontainersVersion % Test,
+      "com.dimafeng"         %% "testcontainers-scala-postgresql" % testcontainersVersion % Test,
+      "org.testcontainers" % "kafka" % "1.19.0" % Test,
+      "org.testcontainers" % "testcontainers" % "1.19.0" % Test,
       "com.typesafe.akka" %% "akka-stream-kafka" % "4.0.1",
       "org.sangria-graphql" %% "sangria" % "4.0.0",
       "com.github.fd4s" %% "fs2-kafka" % "3.9.0",
@@ -35,7 +36,8 @@ lazy val root = (project in file("."))
       "io.circe" %% "circe-core"    % "0.14.9",
       "io.circe" %% "circe-generic" % "0.14.9",
       "io.circe" %% "circe-parser"  % "0.14.9",
-      "io.circe" %% "circe-fs2"     % "0.14.1" // optional, good with fs2-kafka
+      "io.circe" %% "circe-fs2"     % "0.14.1",
+      "org.sangria-graphql" %% "sangria-circe" % "1.3.2"
     ),
     scalacOptions ++= Seq(
       "-feature",
