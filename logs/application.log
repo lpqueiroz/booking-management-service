@@ -1,14 +1,18 @@
-2025-08-15 20:38:18,690 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-7 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
-2025-08-15 20:38:19,328 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-7 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
+2025-08-15 21:53:51,606 [WARN] from org.flywaydb.core.internal.database.base.Database in play-dev-mode-pekko.actor.default-dispatcher-8 - Flyway upgrade recommended: PostgreSQL 16.9 is newer than this version of Flyway and support has not been tested. The latest supported version of PostgreSQL is 15.
+2025-08-15 21:53:52,224 [WARN] from org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor in play-dev-mode-pekko.actor.default-dispatcher-8 - DB: extension "uuid-ossp" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2025-08-15 21:53:52,278 [WARN] from org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor in play-dev-mode-pekko.actor.default-dispatcher-8 - DB: extension "uuid-ossp" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2025-08-15 21:53:52,337 [WARN] from org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor in play-dev-mode-pekko.actor.default-dispatcher-8 - DB: relation "idx_bookings_home_id" already exists, skipping (SQL State: 42P07 - Error Code: 0)
+2025-08-15 21:53:53,507 [INFO] from play.api.http.EnabledFilters in play-dev-mode-pekko.actor.default-dispatcher-8 - Enabled Filters (see <https://www.playframework.com/documentation/latest/Filters>):
 
     play.filters.csrf.CSRFFilter
     play.filters.headers.SecurityHeadersFilter
     play.filters.hosts.AllowedHostsFilter
 
-2025-08-15 20:38:19,333 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-7 - Application started (Dev) (no global state)
-2025-08-15 20:38:19,536 [DEBUG] from application.ErrorHandler in application-pekko.actor.default-dispatcher-5 - onClientError: statusCode = 404, uri = /graphql, message = 
-2025-08-15 20:39:24,163 [INFO] from play.api.internal.libs.concurrent.CoordinatedShutdownSupport in pool-7-thread-7 - Starting synchronous coordinated shutdown with ServerStoppedReason reason and 40000 milliseconds timeout
-2025-08-15 20:39:24,200 [INFO] from play.core.server.PekkoHttpServer in pool-7-thread-7 - Stopping Pekko HTTP server...
-2025-08-15 20:39:24,226 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-15 - Unbinding /0:0:0:0:0:0:0:0:9000
-2025-08-15 20:39:24,242 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-15 - Terminating server binding for /0:0:0:0:0:0:0:0:9000
-2025-08-15 20:39:24,352 [INFO] from play.core.server.PekkoHttpServer in play-dev-mode-pekko.actor.internal-dispatcher-15 - Running provided shutdown stop hooks
+2025-08-15 21:53:53,521 [INFO] from play.api.Play in play-dev-mode-pekko.actor.default-dispatcher-8 - Application started (Dev) (no global state)
+2025-08-15 21:53:54,683 [WARN] from org.apache.kafka.clients.NetworkClient in fs2-kafka-consumer-219 - [Consumer clientId=consumer-booking-conflict-consumer-group-1, groupId=booking-conflict-consumer-group] The metadata response from the cluster reported a recoverable issue with correlation id 3 : {booking.conflicts=LEADER_NOT_AVAILABLE}
+2025-08-15 21:53:54,843 [WARN] from org.apache.kafka.clients.NetworkClient in fs2-kafka-consumer-219 - [Consumer clientId=consumer-booking-conflict-consumer-group-1, groupId=booking-conflict-consumer-group] The metadata response from the cluster reported a recoverable issue with correlation id 8 : {booking.conflicts=LEADER_NOT_AVAILABLE}
+2025-08-15 21:53:55,071 [WARN] from org.apache.kafka.clients.NetworkClient in fs2-kafka-consumer-219 - [Consumer clientId=consumer-booking-conflict-consumer-group-1, groupId=booking-conflict-consumer-group] The metadata response from the cluster reported a recoverable issue with correlation id 12 : {booking.conflicts=LEADER_NOT_AVAILABLE}
+2025-08-15 21:55:30,822 [WARN] from org.apache.kafka.clients.NetworkClient in kafka-producer-network-thread | producer-1 - [Producer clientId=producer-1] The metadata response from the cluster reported a recoverable issue with correlation id 2 : {test-topic=LEADER_NOT_AVAILABLE}
+2025-08-15 21:55:36,800 [WARN] from org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor in pool-1-thread-1 - DB: extension "uuid-ossp" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2025-08-15 21:55:36,816 [WARN] from org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor in pool-1-thread-1 - DB: extension "uuid-ossp" already exists, skipping (SQL State: 42710 - Error Code: 0)
+2025-08-15 21:55:36,818 [WARN] from org.flywaydb.core.internal.sqlscript.DefaultSqlScriptExecutor in pool-1-thread-1 - DB: relation "idx_bookings_home_id" already exists, skipping (SQL State: 42P07 - Error Code: 0)
