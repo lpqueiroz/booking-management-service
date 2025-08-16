@@ -17,7 +17,7 @@ Booking management service for houses. The system is designed to handle booking 
 docker-compose up --build
 ```
 
-Then to run the application, run from the root of the project:
+2. Then to run the application, run from the root of the project:
 
 ```bash
 sbt run
