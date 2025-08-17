@@ -1,24 +1,24 @@
 package services
 
+import cats.effect.IO
 import cats.effect.unsafe.implicits.global
-import kafka.BookingConflictProducer
+import kafka.BookingConflictProducerRunner
 import models.{AlternativeDate, Booking, BookingConflictEvent, BookingResponse}
 import repositories.BookingRepository
+
 import java.time.format.{DateTimeFormatter, DateTimeFormatterBuilder}
 import java.time.temporal.{ChronoField, ChronoUnit}
 import java.time.{LocalDate, LocalDateTime, ZoneOffset}
 import java.util.UUID
 import javax.inject.Inject
-import scala.concurrent.Future
-import cats.effect.unsafe.IORuntime
+import scala.concurrent.ExecutionContext
 import com.typesafe.config.Config
-import org.postgresql.util.PSQLException
 
-class BookingServiceImpl @Inject()(bookingRepository: BookingRepository, config: Config) extends BookingService {
+class BookingServiceImpl @Inject()(
+                                    bookingRepository: BookingRepository,
+                                    producerRunner: BookingConflictProducerRunner
+                                  )(implicit ec: ExecutionContext) extends BookingService {
 
-  implicit val ec: scala.concurrent.ExecutionContext = scala.concurrent.ExecutionContext.global
-  private val bootstrap = config.getString("kafka.producer.bootstrap.servers")
-  private val producerResource = BookingConflictProducer.resource(bootstrap)
   private val formatter: DateTimeFormatter = new DateTimeFormatterBuilder()
     .appendPattern("yyyy-MM-dd HH:mm:ss")
     .optionalStart()
@@ -26,9 +26,9 @@ class BookingServiceImpl @Inject()(bookingRepository: BookingRepository, config:
     .optionalEnd()
     .toFormatter()
 
-  def getBookingsByHomeId(homeId: UUID): Future[List[Booking]] = {
-    bookingRepository.getBookingsByHomeId(homeId).unsafeToFuture()(IORuntime.global)
-  }
+  private def sendConflictEvent(event: BookingConflictEvent): Unit = producerRunner.producer.send(event).unsafeRunAndForget()
+
+  def getBookingsByHomeId(homeId: UUID): IO[List[Booking]] = bookingRepository.getBookingsByHomeId(homeId)
 
   def createBooking(
                      homeId: UUID,
@@ -36,14 +36,10 @@ class BookingServiceImpl @Inject()(bookingRepository: BookingRepository, config:
                      toDate: LocalDate,
                      guestEmail: String,
                      source: String
-                   ): Future[BookingResponse] = {
+                   ): IO[BookingResponse] = {
     bookingRepository.createBooking(homeId, fromDate, toDate, guestEmail, source)
-      .unsafeToFuture()(IORuntime.global)
-      .recover {
-        case e: PSQLException if e.getSQLState == "23P01" => Left(e) // Only overlap errors
-      }
       .flatMap {
-        case Right(_) => Future.successful(BookingResponse(true, "Booking created successfully", Seq.empty))
+        case Right(_) => IO.pure(BookingResponse(true, "Booking created successfully", Seq.empty))
         case Left(_) => handleBookingConflicts(homeId, fromDate, toDate, guestEmail)
       }
   }
@@ -53,17 +49,16 @@ class BookingServiceImpl @Inject()(bookingRepository: BookingRepository, config:
                                       fromDate: LocalDate,
                                       toDate: LocalDate,
                                       guestEmail: String
-                                    ): Future[BookingResponse] = {
+                                    ): IO[BookingResponse] = {
     bookingRepository.findConflictingBookings(homeId, fromDate, toDate)
-      .unsafeToFuture()
       .flatMap { conflicts =>
-        bookingRepository.getCurrentDbTime.unsafeToFuture().map { dbTime =>
+        bookingRepository.getCurrentDbTime.map { dbTime =>
           val isConcurrency = conflicts.exists(b => LocalDateTime.parse(b.createdAt, formatter)
             .isAfter(LocalDateTime.ofInstant(dbTime, ZoneOffset.UTC)))
           val message = if (isConcurrency) "Another booking was made at the same time" else "Home is already booked for these dates"
           val eventType = if (isConcurrency) "Concurrency Conflict" else "Regular Conflict"
 
-          sendEventToKafka(BookingConflictEvent(homeId, fromDate, toDate, guestEmail, eventType))
+          sendConflictEvent(BookingConflictEvent(homeId, fromDate, toDate, guestEmail, eventType))
 
           BookingResponse(false, message, suggestAlternativeDates(fromDate, toDate, conflicts))
         }
@@ -93,11 +88,5 @@ class BookingServiceImpl @Inject()(bookingRepository: BookingRepository, config:
       }
       .take(maxSuggestions)
       .map(t => AlternativeDate(t._1.toString, t._2.toString))
-  }
-
-  private def sendEventToKafka(event: BookingConflictEvent) = {
-    producerResource.use { producer =>
-      producer.send(event)
-    }.unsafeRunAndForget()
   }
 }

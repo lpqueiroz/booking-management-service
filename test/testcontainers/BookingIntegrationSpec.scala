@@ -14,6 +14,9 @@ import doobie._
 import doobie.implicits._
 import graphql.SchemaDefinition
 import io.circe.Json
+import kafka.BookingConflictProducerRunner
+import org.scalatestplus.mockito.MockitoSugar.mock
+import play.api.Configuration
 import repositories.BookingRepositoryImpl
 import sangria.execution.Executor
 import sangria.parser.QueryParser
@@ -29,8 +32,15 @@ class BookingIntegrationSpec extends AsyncFlatSpec with Matchers with BeforeAndA
 
   implicit val runtime: IORuntime = IORuntime.global
   val bookingRepository = new BookingRepositoryImpl(xa)
-  val testConfig = ConfigFactory.load()
-  val bookingService: BookingServiceImpl = new BookingServiceImpl(bookingRepository, testConfig)
+  val testConfig = Configuration.from(Map(
+    "kafka.bootstrapServer" -> "localhost:9092",
+    "kafka.consumerGroupId"  -> "test-group"
+  ))
+  val producerRunner: BookingConflictProducerRunner = {
+    val lifecycle: play.api.inject.ApplicationLifecycle = new DummyLifecycle()
+    new BookingConflictProducerRunner(lifecycle, testConfig)
+  }
+  val bookingService: BookingServiceImpl = new BookingServiceImpl(bookingRepository, producerRunner)
   val schema: Schema[BookingService, Unit] = SchemaDefinition.BookingSchema
 
   override def beforeAll(): Unit = {

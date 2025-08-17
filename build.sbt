@@ -37,7 +37,9 @@ lazy val root = (project in file("."))
       "io.circe" %% "circe-generic" % "0.14.9",
       "io.circe" %% "circe-parser"  % "0.14.9",
       "io.circe" %% "circe-fs2"     % "0.14.1",
-      "org.sangria-graphql" %% "sangria-circe" % "1.3.2"
+      "org.sangria-graphql" %% "sangria-circe" % "1.3.2",
+      "org.typelevel" %% "log4cats-core" % "2.7.1",
+      "org.typelevel" %% "log4cats-slf4j" % "2.7.1"
     ),
     scalacOptions ++= Seq(
       "-feature",

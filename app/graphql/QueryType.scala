@@ -1,7 +1,9 @@
 package graphql
 
+import cats.effect.unsafe.implicits.global
 import sangria.schema._
 import services.BookingService
+
 import java.util.UUID
 
 object QueryType {
@@ -10,9 +12,9 @@ object QueryType {
     fields[BookingService, Unit](
       Field(
         name = "bookings",
-        fieldType = ListType(BookingType.BookingType), // BookingType implicit is in scope
+        fieldType = ListType(BookingType.BookingType),
         arguments = Argument("homeId", Scalars.UUIDType) :: Nil,
-        resolve = ctx => ctx.ctx.getBookingsByHomeId(ctx.arg[UUID]("homeId"))
+        resolve = ctx => ctx.ctx.getBookingsByHomeId(ctx.arg[UUID]("homeId")).unsafeToFuture()
       )
     )
   )

@@ -1,11 +1,12 @@
 package services
 
+import cats.effect.IO
 import com.google.inject.ImplementedBy
 import models.{Booking, BookingResponse}
 
 import java.time.LocalDate
 import java.util.UUID
-import scala.concurrent.Future
+
 
 @ImplementedBy(classOf[BookingServiceImpl])
 trait BookingService {
@@ -16,7 +17,7 @@ trait BookingService {
                      toDate: LocalDate,
                      guestEmail: String,
                      source: String
-                   ): Future[BookingResponse]
+                   ): IO[BookingResponse]
 
-  def getBookingsByHomeId(homeId: UUID): Future[List[Booking]]
+  def getBookingsByHomeId(homeId: UUID): IO[List[Booking]]
 }

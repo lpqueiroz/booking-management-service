@@ -1,47 +1,53 @@
 package kafka
 
-import cats.effect.IO
-import cats.effect.unsafe.IORuntime
+import cats.effect.{IO, Resource}
+import cats.implicits.catsSyntaxApplyOps
 import fs2.kafka._
 import javax.inject._
 import models.BookingConflictEvent
-import scala.concurrent.ExecutionContext
 import kafka.KafkaSerdes._
-import play.api.inject.ApplicationLifecycle
+import org.typelevel.log4cats.Logger
+import org.typelevel.log4cats.slf4j.Slf4jLogger
 import repositories.BookingConflictRepository
 
 @Singleton
-class BookingConflictConsumer @Inject()(bookingConflictRepository: BookingConflictRepository, lifecycle: ApplicationLifecycle)(implicit ec: ExecutionContext, runtime: IORuntime) {
+class BookingConflictConsumer @Inject() private (bookingConflictRepository: BookingConflictRepository,
+                                                 consumer: KafkaConsumer[IO, String, BookingConflictEvent],
+                                                 logger: Logger[IO]) {
 
-  private val consumerSettings =
-    ConsumerSettings(
-      keyDeserializer   = Deserializer[IO, String],
-      valueDeserializer = KafkaSerdes.jsonDeserializer[BookingConflictEvent]
-    )
-      .withBootstrapServers("localhost:9092")
-      .withGroupId("booking-conflict-consumer-group")
-      .withEnableAutoCommit(false)
-      .withAutoOffsetReset(AutoOffsetReset.Earliest)
+  private val bookingTopic = "booking.conflicts"
 
-  private val consumerStream =
-    KafkaConsumer.stream(consumerSettings)
-      .subscribeTo("booking.conflicts")
-      .records
-      .evalMap { committable =>
+  def stream: fs2.Stream[IO, Unit] =
+    fs2.Stream.eval(consumer.subscribeTo(bookingTopic)) *>
+      consumer.stream.evalMap { committable =>
         val event = committable.record.value
         bookingConflictRepository.insert(event).attempt.flatMap {
-          case Left(err) => IO(println(s"Error inserting booking conflict: $err")) *>
-            committable.offset.commit
-          case Right(_) =>
-            committable.offset.commit
+          case Right(_) => committable.offset.commit
+          case Left(e)  => logger.error(e)(s"Failed to insert booking conflict: $event") *> IO.unit
         }
       }
+}
 
-  private val running = consumerStream.compile.drain.start.unsafeRunSync()
+object BookingConflictConsumer {
 
-  lifecycle.addStopHook { () =>
-    IO {
-      running.cancel
-    }.unsafeToFuture()
+  def resource(
+                bootstrapServers: String,
+                groupId: String,
+                repo: BookingConflictRepository
+              ): Resource[IO, BookingConflictConsumer] = {
+    val consumerSettings =
+      ConsumerSettings(
+        keyDeserializer = Deserializer[IO, String],
+        valueDeserializer = KafkaSerdes.jsonDeserializer[BookingConflictEvent]
+      )
+        .withBootstrapServers(bootstrapServers)
+        .withGroupId(groupId)
+        .withEnableAutoCommit(false)
+        .withAutoOffsetReset(AutoOffsetReset.Earliest)
+
+    for {
+      consumer <- KafkaConsumer.resource(consumerSettings)
+      logger <- Resource.eval(Slf4jLogger.create[IO])
+    } yield new BookingConflictConsumer(repo, consumer, logger)
   }
 }

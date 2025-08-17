@@ -2,31 +2,20 @@ package modules
 
 import cats.effect.IO
 import cats.effect.unsafe.IORuntime
-import com.google.inject.AbstractModule
-import com.typesafe.config.ConfigFactory
-import fs2.kafka.{KafkaProducer, ProducerSettings}
-import kafka.{BookingConflictConsumer, BookingConflictProducer, KafkaSerdes}
-import models.BookingConflictEvent
+import com.google.inject.{AbstractModule, Provides}
+import kafka.{BookingConflictConsumerRunner, BookingConflictProducerRunner}
+import org.typelevel.log4cats.Logger
+import org.typelevel.log4cats.slf4j.Slf4jLogger
 
 class KafkaModule extends AbstractModule {
 
   override def configure(): Unit = {
     implicit val runtime: IORuntime = IORuntime.global
 
-    bind(classOf[BookingConflictConsumer]).asEagerSingleton()
-
-    val config = ConfigFactory.load()
-    val bootstrap = config.getString("kafka.producer.bootstrap.servers")
-
-    val producerSettings = ProducerSettings[IO, String, BookingConflictEvent](
-      keySerializer   = fs2.kafka.Serializer[IO, String],
-      valueSerializer = KafkaSerdes.jsonSerializer[BookingConflictEvent]
-    ).withBootstrapServers(bootstrap)
-
-    val producer: KafkaProducer[IO, String, BookingConflictEvent] =
-      KafkaProducer.resource(producerSettings).allocated.unsafeRunSync()._1
-
-    bind(classOf[BookingConflictProducer])
-      .toInstance(new BookingConflictProducer(producer))
+    bind(classOf[BookingConflictProducerRunner]).asEagerSingleton()
+    bind(classOf[BookingConflictConsumerRunner]).asEagerSingleton()
   }
+
+  @Provides
+  def provideLogger: Logger[IO] = Slf4jLogger.getLogger[IO]
 }
