@@ -27,4 +27,3 @@ class BookingConflictProducerRunner @Inject()(
     finalizer.unsafeToFuture()
   }
 }
-

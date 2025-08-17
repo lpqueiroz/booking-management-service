@@ -32,19 +32,16 @@ object MutationType {
           val guestEmail = ctx.arg[String]("guestEmail")
           val source     = ctx.arg[String]("source")
 
-          val fromDateConverted: LocalDate = LocalDate.parse(fromDate)
-          val toDateConverted: LocalDate = LocalDate.parse(toDate)
+          val (fromDateConverted, toDateConverted) = BookingValidator.validate(fromDate, toDate, guestEmail)
 
-          if (toDateConverted.isBefore(fromDateConverted)) {
-            throw UserError("fromDate must be before toDate")
-          } else {
-            ctx.ctx.createBooking(homeId, fromDateConverted, toDateConverted, guestEmail, source)
-              .unsafeToFuture()
-              .recover {
-                case ex: Exception =>
-                  throw UserError("Booking could not be created: " + ex.getMessage)
-              }
-          }
+//          val fromDateConverted: LocalDate = LocalDate.parse(fromDate)
+//          val toDateConverted: LocalDate = LocalDate.parse(toDate)
+          ctx.ctx.createBooking(homeId, fromDateConverted, toDateConverted, guestEmail, source)
+            .unsafeToFuture()
+            .recover {
+              case ex: Exception =>
+                throw UserError("Booking could not be created: " + ex.getMessage)
+            }
         }
       )
     )
