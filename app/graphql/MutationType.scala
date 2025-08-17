@@ -34,8 +34,6 @@ object MutationType {
 
           val (fromDateConverted, toDateConverted) = BookingValidator.validate(fromDate, toDate, guestEmail)
 
-//          val fromDateConverted: LocalDate = LocalDate.parse(fromDate)
-//          val toDateConverted: LocalDate = LocalDate.parse(toDate)
           ctx.ctx.createBooking(homeId, fromDateConverted, toDateConverted, guestEmail, source)
             .unsafeToFuture()
             .recover {
